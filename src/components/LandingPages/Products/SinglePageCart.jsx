@@ -85,7 +85,7 @@ const SinglePageCart = ({ params }) => {
 
   const currentPrice = currentVariant
     ? currentVariant?.sellingPrice
-    : singleProduct?.sellingPrice;
+    : singleProduct?.offerPrice ?? singleProduct?.sellingPrice;
 
   const currentImage = selectedImage
     ? selectedImage
@@ -95,19 +95,27 @@ const SinglePageCart = ({ params }) => {
 
   const allMedia =
     variantMedia.length > 0
-      ? [...variantMedia, singleProduct?.video ? "video-thumbnail" : null]
+      ? [
+          ...variantMedia,
+          singleProduct?.video ? "video-thumbnail" : null,
+        ].filter(Boolean)
       : [
-          formatImagePath(singleProduct?.mainImage) || null,
+          singleProduct?.mainImage
+            ? formatImagePath(singleProduct.mainImage)
+            : null,
           ...(Array.isArray(singleProduct?.images)
-            ? singleProduct?.images.map((image) => formatImagePath(image))
+            ? singleProduct.images.map((image) =>
+                image ? formatImagePath(image) : null
+              )
             : []),
           ...(Array.isArray(singleProduct?.variants)
-            ? singleProduct?.variants
-                ?.filter((variant) => variant.images)
-                ?.map((variant) =>
-                  variant.images.map((image) => formatImagePath(image))
-                )
-                .flat()
+            ? singleProduct.variants.flatMap((variant) =>
+                Array.isArray(variant.images)
+                  ? variant.images.map((image) =>
+                      image ? formatImagePath(image) : null
+                    )
+                  : []
+              )
             : []),
           singleProduct?.video ? "video-thumbnail" : null,
         ].filter(Boolean);
@@ -140,8 +148,8 @@ const SinglePageCart = ({ params }) => {
     <section className="container mx-auto px-2 lg:px-5 py-10">
       <div className="border-2 border-primary rounded-xl p-5 mb-10 shadow-xl">
         <div className="flex flex-col lg:flex-row items-center justify-center gap-10 mb-10">
-          <div className="relative mx-auto flex flex-col lg:flex-row-reverse items-center lg:gap-10">
-            <div className="relative mx-auto">
+          <div className="relative mx-auto flex flex-col lg:flex-row-reverse items-center lg:gap-5">
+            <div className="relative mx-auto lg:w-[300px] xl:w-full">
               {isVideoPlaying && singleProduct?.video ? (
                 <video
                   src={formatImagePath(singleProduct?.video)}
@@ -236,7 +244,9 @@ const SinglePageCart = ({ params }) => {
               )}
               {singleProduct?.offerPrice && (
                 <p className="text-base line-through text-red-500">
-                  {globalData?.results?.currency + " " + currentPrice}
+                  {globalData?.results?.currency +
+                    " " +
+                    singleProduct?.sellingPrice}
                 </p>
               )}
             </div>

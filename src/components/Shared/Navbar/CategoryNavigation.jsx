@@ -66,7 +66,7 @@ const CategoryNavigation = () => {
             <span>{parentCategory?.name}</span>
             {parentCategory?.categories &&
               parentCategory?.categories.length > 0 && (
-                <DownOutlined className="!text-sm" />
+                <DownOutlined className="!text-sm mt-0.5 ml-1" />
               )}
           </Link>
         </Dropdown>

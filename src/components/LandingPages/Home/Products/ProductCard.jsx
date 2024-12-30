@@ -42,7 +42,7 @@ const ProductCard = ({ item }) => {
             alt={item?.name}
             width={220}
             height={260}
-            className="rounded-xl lg:h-[380px] group-hover:scale-110 duration-500"
+            className="rounded-xl lg:h-[380px] group-hover:scale-110 duration-500 object-cover"
           />
         )}
 
@@ -54,12 +54,12 @@ const ProductCard = ({ item }) => {
         </div>
       </div>
 
-      <div className="lg:p-5 text-center lg:text-start">
+      <div className="lg:p-3 text-center lg:text-start">
         <LinkButton href={`/products/${item?.slug}`}>
           <Tooltip placement="top" title={item?.name}>
-            <h2 className="text-sm text-center lg:text-start md:text-base font-semibold mt-2 mb-4">
-              {item?.name.length > 40
-                ? item.name.slice(0, 40).concat("...")
+            <h2 className="text-sm text-center lg:text-start md:text-base font-medium mt-2 mb-4">
+              {item?.name.length > 35
+                ? item.name.slice(0, 35).concat("...")
                 : item.name}
             </h2>
           </Tooltip>

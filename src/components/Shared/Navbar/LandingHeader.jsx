@@ -147,7 +147,7 @@ const LandingHeader = () => {
 
   return (
     <header className="shadow-md sticky top-0 z-50 bg-white">
-      <nav className="my-container flex justify-between items-center py-2">
+      <nav className="my-container flex justify-between items-center">
         <Button
           type="text"
           className="lg:hidden"
@@ -159,8 +159,8 @@ const LandingHeader = () => {
             <Image
               src={globalData?.results?.logo}
               alt="logo"
-              width={50}
-              height={20}
+              width={80}
+              height={80}
             />
           </Link>
           <div className="hidden lg:flex gap-6 items-center">
@@ -256,13 +256,13 @@ const LandingHeader = () => {
         onClose={() => setIsDrawerOpen(false)}
         open={isDrawerOpen}
       >
-        <div className="flex justify-between items-center -mt-5 mb-10">
+        <div className="flex justify-between items-center -mt-5 mb-5">
           <Link href={"/"}>
             <Image
               src={globalData?.results?.logo}
               alt="logo"
-              width={50}
-              height={50}
+              width={80}
+              height={80}
             />
           </Link>
           <button
@@ -279,6 +279,7 @@ const LandingHeader = () => {
         onCancel={() => setIsSearchOpen(false)}
         footer={null}
         destroyOnClose
+        width={800}
       >
         {" "}
         <div className="p-5 relative">
