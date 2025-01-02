@@ -174,7 +174,7 @@ const SinglePageCart = ({ params }) => {
               )}
             </div>
 
-            <div className="flex flex-row lg:flex-col justify-start gap-2 mt-5 max-h-[400px] w-[300px] lg:w-auto xl:w-[147px] border rounded-xl p-4 !overflow-x-auto lg:overflow-y-auto thumbnail">
+            <div className="flex flex-row lg:flex-col justify-start gap-2 mt-5 max-h-[400px] w-[300px] lg:w-auto xl:w-[145px] border rounded-xl p-4 !overflow-x-auto lg:overflow-y-auto thumbnail">
               {allMedia?.map((media, index) => (
                 <div
                   key={index}
@@ -208,20 +208,20 @@ const SinglePageCart = ({ params }) => {
             </div>
           </div>
           <div className="lg:w-1/2 flex flex-col gap-3">
-            <h2 className="text-3xl lg:text-4xl font-bold">
+            <h2 className="text-xl lg:text-3xl font-medium">
               {singleProduct?.name}
             </h2>
             <div className="flex items-center gap-2">
-              <span className="font-bold">Category:</span>
+              <span className="font-medium">Category:</span>
               <span>{singleProduct?.category?.name}</span>
             </div>
             {singleProduct?.brand && (
               <div className="flex items-center gap-2">
-                <span className="font-bold">Brand:</span>
+                <span className="font-medium">Brand:</span>
                 <span>{singleProduct?.brand?.name}</span>
               </div>
             )}
-            <div className="flex items-center mt-4 gap-4 font-bold">
+            <div className="flex items-center mt-4 gap-4 font-medium">
               <Rate
                 disabled
                 value={singleProduct?.ratings?.average}
@@ -229,19 +229,11 @@ const SinglePageCart = ({ params }) => {
               />
               ({singleProduct?.ratings?.count})
             </div>
-            <div className="flex items-center gap-4 text-textColor font-bold my-2">
+            <div className="flex items-center gap-4 text-textColor font-medium my-2">
               Price:{" "}
-              {singleProduct?.offerPrice ? (
-                <p className="text-primary text-xl">
-                  {globalData?.results?.currency +
-                    " " +
-                    singleProduct?.offerPrice}
-                </p>
-              ) : (
-                <p className="text-primary text-xl">
-                  {globalData?.results?.currency + " " + currentPrice}
-                </p>
-              )}
+              <p className="text-primary text-xl">
+                {globalData?.results?.currency + " " + currentPrice}
+              </p>
               {singleProduct?.offerPrice && (
                 <p className="text-base line-through text-red-500">
                   {globalData?.results?.currency +
@@ -279,7 +271,7 @@ const SinglePageCart = ({ params }) => {
                 </div>
               </>
             ) : (
-              <div className="p-2 bg-gradient-to-r from-red-500 to-red-700 text-white rounded font-bold text-xs z-10">
+              <div className="p-2 bg-gradient-to-r from-red-500 to-red-700 text-white rounded font-bold text-xs z-10 text-center">
                 Out Of Stock
               </div>
             )}

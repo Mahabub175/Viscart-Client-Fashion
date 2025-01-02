@@ -173,7 +173,7 @@ const SingleProductDetails = ({ params }) => {
             )}
           </div>
 
-          <div className="flex flex-row lg:flex-col justify-start gap-2 mt-5 max-h-[400px] w-[300px] lg:w-auto xl:w-[147px] border rounded-xl p-4 !overflow-x-auto lg:overflow-y-auto thumbnail">
+          <div className="flex flex-row lg:flex-col justify-start gap-2 mt-5 max-h-[400px] w-[300px] lg:w-auto xl:w-[142px] border rounded-xl p-4 !overflow-x-auto lg:overflow-y-auto thumbnail">
             {allMedia?.map((media, index) => (
               <div
                 key={index}
@@ -186,17 +186,17 @@ const SingleProductDetails = ({ params }) => {
                 }`}
               >
                 {media === "video-thumbnail" ? (
-                  <div className="flex items-center justify-center bg-black rounded-xl w-20 h-20">
+                  <div className="flex items-center justify-center rounded-xl w-20 h-20">
                     <FaPlay className="text-white text-2xl" />
                   </div>
                 ) : (
                   <>
-                    <div className="flex items-center justify-center bg-black rounded-xl w-20 h-20">
+                    <div className="flex items-center justify-center rounded-xl w-20 h-20">
                       <Image
                         src={media}
                         alt={`media ${index}`}
-                        height={60}
-                        width={60}
+                        height={80}
+                        width={80}
                         className="object-cover rounded-xl"
                       />
                     </div>
@@ -226,17 +226,9 @@ const SingleProductDetails = ({ params }) => {
           </div>
           <div className="flex items-center gap-4 text-textColor font-medium my-2">
             Price:{" "}
-            {singleProduct?.offerPrice ? (
-              <p className="text-primary text-xl">
-                {globalData?.results?.currency +
-                  " " +
-                  singleProduct?.offerPrice}
-              </p>
-            ) : (
-              <p className="text-primary text-xl">
-                {globalData?.results?.currency + " " + currentPrice}
-              </p>
-            )}
+            <p className="text-primary text-xl">
+              {globalData?.results?.currency + " " + currentPrice}
+            </p>
             {singleProduct?.offerPrice && (
               <p className="text-base line-through text-red-500">
                 {globalData?.results?.currency +
@@ -281,7 +273,7 @@ const SingleProductDetails = ({ params }) => {
       <div className="mt-20">
         {activeProducts && activeProducts.length > 0 ? (
           <>
-            <h2 className="text-xl lg:text-3xl font-bold mb-5 border-b pb-2 px-2">
+            <h2 className="text-xl lg:text-3xl font-medium mb-5 border-b pb-2 px-2">
               You may also like
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-2 gap-y-5 lg:gap-5">
