@@ -24,6 +24,7 @@ import { usePathname } from "next/navigation";
 import { toast } from "sonner";
 import { IoMdArrowDropdown } from "react-icons/io";
 import BottomNavigation from "./BottomNavigation";
+import logo from "@/assets/images/logo-white.png";
 
 const LandingHeader = () => {
   const pathname = usePathname();
@@ -110,8 +111,8 @@ const LandingHeader = () => {
 
     const filteredOptions = products?.results?.filter(
       (product) =>
-        product.name.toLowerCase().includes(value.toLowerCase()) ||
-        product.category.name?.toLowerCase().includes(value.toLowerCase())
+        product?.name?.toLowerCase().includes(value.toLowerCase()) ||
+        product?.category?.name?.toLowerCase().includes(value.toLowerCase())
     );
 
     setOptions(
@@ -157,10 +158,11 @@ const LandingHeader = () => {
         <div className="flex items-center gap-6">
           <Link href={"/"}>
             <Image
-              src={globalData?.results?.logo}
+              src={globalData?.results?.logo ?? logo}
               alt="logo"
               width={80}
               height={80}
+              className="w-full h-full"
             />
           </Link>
           <div className="hidden lg:flex gap-6 items-center">
