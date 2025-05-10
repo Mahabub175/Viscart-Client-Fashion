@@ -121,6 +121,7 @@ const LandingHeader = () => {
         label: (
           <Link
             href={`/products/${product?.slug}`}
+            onClick={() => setIsSearchOpen(false)}
             className="flex items-center gap-4 hover:text-primary pb-2 border-b border-b-gray-300"
           >
             <Image
@@ -162,7 +163,7 @@ const LandingHeader = () => {
               alt="logo"
               width={80}
               height={80}
-              className="w-full h-full"
+              className="w-full h-full py-2"
             />
           </Link>
           <div className="hidden lg:flex gap-6 items-center">
