@@ -24,7 +24,7 @@ import { usePathname } from "next/navigation";
 import { toast } from "sonner";
 import { IoMdArrowDropdown } from "react-icons/io";
 import BottomNavigation from "./BottomNavigation";
-import logo from "@/assets/images/logo-white.png";
+import logo from "@/assets/images/logo.png";
 
 const LandingHeader = () => {
   const pathname = usePathname();
@@ -42,9 +42,7 @@ const LandingHeader = () => {
   const { data: wishListData } = useGetSingleWishlistByUserQuery(
     user?._id ?? deviceId
   );
-  const { data: cartData, refetch } = useGetSingleCartByUserQuery(
-    user?._id ?? deviceId
-  );
+  const { data: cartData } = useGetSingleCartByUserQuery(user?._id ?? deviceId);
 
   const { data: globalData } = useGetAllGlobalSettingQuery();
   const { data: products } = useGetAllProductsQuery(undefined, {
@@ -312,7 +310,7 @@ const LandingHeader = () => {
             <GiCancel className="text-xl text-gray-700" />
           </button>
         </div>
-        <DrawerCart data={cartData} refetch={refetch} />
+        <DrawerCart data={cartData} setDrawer={setIsCartOpen} />
       </Drawer>
       <BottomNavigation setIsCartOpen={setIsCartOpen} />
     </header>

@@ -15,7 +15,6 @@ import { toast } from "sonner";
 
 const QuickViewHover = ({ item }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-
   const user = useSelector(useCurrentUser);
   const deviceId = useSelector(useDeviceId);
 

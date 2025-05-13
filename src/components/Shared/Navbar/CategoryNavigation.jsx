@@ -61,7 +61,7 @@ const CategoryNavigation = () => {
         >
           <Link
             href={`/products?filter=${parentCategory?.name}`}
-            className="flex items-center cursor-pointer"
+            className="flex items-center cursor-pointer lg:text-xs xl:text-base"
           >
             <span>{parentCategory?.name}</span>
             {parentCategory?.categories &&
@@ -75,11 +75,13 @@ const CategoryNavigation = () => {
 
   return (
     <div>
-      <div className="flex flex-col lg:flex-row gap-5 lg:items-center px-5">
+      <div className="flex flex-col lg:flex-row gap-5 lg:items-center px-5 lg:text-xs xl:text-base">
         {renderParentCategories()}
         <span className="hidden lg:block">|</span>
         <span className="lg:hidden"></span>
-        <Link href={"/products"}>All Products</Link>
+        <Link href={"/products"} className="-mt-5 lg:-mt-0">
+          All Products
+        </Link>
         <Link href={"/offers"}>Offers</Link>
       </div>
     </div>

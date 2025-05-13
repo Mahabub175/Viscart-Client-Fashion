@@ -1,104 +1,86 @@
 "use client";
-import { useState, useRef } from "react";
+
+import LinkButton from "@/components/Shared/LinkButton";
 import { useGetAllCategoriesQuery } from "@/redux/services/category/categoryApi";
 import { useGetAllProductsQuery } from "@/redux/services/product/productApi";
-import { Tabs } from "antd";
-import ProductCard from "./Products/ProductCard";
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
-import { Autoplay, Navigation, Pagination } from "swiper/modules";
-import { SwiperSlide, Swiper } from "swiper/react";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+import Image from "next/image";
+import { useState } from "react";
 
 const Categories = () => {
-  const swiperRef = useRef(null);
   const { data: categories } = useGetAllCategoriesQuery();
-  const { data: productData } = useGetAllProductsQuery();
+  const { data: products } = useGetAllProductsQuery();
 
-  const activeProducts = productData?.results?.filter(
+  const [showAll, setShowAll] = useState(false);
+
+  const activeCategories = categories?.results?.filter(
+    (item) => item?.status !== "Inactive" && item?.level === "parentCategory"
+  );
+  const activeProducts = products?.results?.filter(
     (item) => item?.status !== "Inactive"
   );
 
-  const activeCategories = categories?.results
-    ?.filter((category) => category?.status !== "Inactive")
-    ?.filter((category) =>
-      activeProducts?.some(
-        (product) => product?.category?._id === category?._id
-      )
-    );
+  const getProductCountByCategory = (categoryId) => {
+    return activeProducts?.filter(
+      (product) => product?.category?._id === categoryId
+    )?.length;
+  };
 
-  const [activeCategory, setActiveCategory] = useState("all-products");
+  const sortedCategories = activeCategories
+    ?.map((category) => ({
+      ...category,
+      productCount: getProductCountByCategory(category?._id),
+    }))
+    .sort((a, b) => b.productCount - a.productCount);
 
-  const filteredProducts =
-    activeCategory === "all-products"
-      ? activeProducts
-      : activeProducts?.filter(
-          (product) => product?.category?._id === activeCategory
-        );
+  const visibleCategories = showAll
+    ? sortedCategories
+    : sortedCategories?.slice(0, 6);
 
   return (
-    <section className="container mx-auto px-2 lg:px-5">
-      <div className="flex flex-col lg:flex-row items-center justify-between border-b">
-        <h2 className="text-2xl lg:text-3xl font-semibold text-center mb-5">
-          Top Categories
-        </h2>
-        <Tabs
-          defaultActiveKey="all-products"
-          size="large"
-          className="font-semibold max-w-[350px] lg:max-w-[600px]"
-          onChange={(key) => setActiveCategory(key)}
-        >
-          <Tabs.TabPane tab="All" key="all-products" />
-          {activeCategories?.map((category) => (
-            <Tabs.TabPane tab={category?.name} key={category?._id} />
-          ))}
-        </Tabs>
-      </div>
-      {filteredProducts?.length > 0 ? (
-        <div className="relative mt-5">
-          <Swiper
-            onBeforeInit={(swiper) => {
-              swiperRef.current = swiper;
-            }}
-            modules={[Navigation, Pagination, Autoplay]}
-            spaceBetween={10}
-            slidesPerView={2}
-            breakpoints={{
-              480: { slidesPerView: 2 },
-              600: { slidesPerView: 3 },
-              1024: { slidesPerView: 5 },
-            }}
-            autoplay={{
-              delay: 5000,
-              disableOnInteraction: true,
-            }}
-            className="mySwiper my-10 rounded-xl"
+    <section className="my-container p-5 -mt-5 lg:mt-10 relative">
+      <h2 className="text-2xl lg:text-3xl font-medium text-center lg:text-start mb-5">
+        Top Categories
+      </h2>
+      <div className="grid grid-cols-2 md:flex md:flex-wrap gap-5 mx-auto justify-center items-center">
+        {visibleCategories?.map((item) => (
+          <div
+            className="group relative w-[160px] h-[160px] mx-auto rounded-xl"
+            key={item?._id}
           >
-            {filteredProducts?.map((product) => (
-              <SwiperSlide key={product?._id}>
-                <ProductCard item={product} />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-          <div className="flex items-center justify-center gap-5">
-            <button
-              className="absolute top-[45%] -left-2 z-10 lg:w-8 lg:h-8 flex items-center justify-center rounded-full bg-white text-black border border-primary hover:bg-primary hover:text-white duration-300"
-              onClick={() => swiperRef.current?.slidePrev()}
-            >
-              <FaAngleLeft className="text-xl" />
-            </button>
-            <button
-              className="absolute top-[45%] -right-2 z-10 lg:w-8 lg:h-8 flex items-center justify-center rounded-full bg-white text-black border border-primary hover:bg-primary hover:text-white duration-300"
-              onClick={() => swiperRef.current?.slideNext()}
-            >
-              <FaAngleRight className="text-xl" />
-            </button>
+            <LinkButton href={`/products?filter=${item?.name}`}>
+              <div className="overflow-hidden w-full h-full rounded-xl">
+                <Image
+                  src={
+                    item?.attachment ??
+                    "https://thumbs.dreamstime.com/b/demo-demo-icon-139882881.jpg"
+                  }
+                  alt={item?.name ?? "categories"}
+                  width={160}
+                  height={160}
+                  className="w-full h-full object-cover group-hover:scale-110 duration-500 rounded-xl"
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center rounded-xl">
+                  <h2 className="text-white text-base lg:text-lg font-medium group-hover:-translate-y-4 duration-500 px-2">
+                    {item?.name}
+                  </h2>
+                </div>
+                <div className="absolute bottom-10 left-0 right-0 text-white text-center py-1 opacity-0 group-hover:opacity-100 translate-y-full group-hover:translate-y-0 transition-transform duration-500 text-sm">
+                  {item.productCount} products
+                </div>
+              </div>
+            </LinkButton>
           </div>
-        </div>
-      ) : (
-        <div className="text-center text-xl font-semibold my-10">
-          No products found for this category.
+        ))}
+      </div>
+
+      {!showAll && sortedCategories?.length > 6 && (
+        <div className="flex justify-center mt-10">
+          <button
+            onClick={() => setShowAll(true)}
+            className="bg-primary text-white px-6 py-2 rounded duration-300"
+          >
+            View All
+          </button>
         </div>
       )}
     </section>
