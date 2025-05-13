@@ -302,7 +302,7 @@ const AllProducts = ({ searchParams }) => {
                 <Checkbox.Group
                   options={activeGenerics?.map((generic) => {
                     const productCount = productData?.results?.filter(
-                      (product) => product.generic.name === generic.name
+                      (product) => product?.generic?.name === generic?.name
                     ).length;
 
                     return {
@@ -449,7 +449,7 @@ const AllProducts = ({ searchParams }) => {
               <Checkbox.Group
                 options={activeGenerics?.map((generic) => {
                   const productCount = productData?.results?.filter(
-                    (product) => product.generic.name === generic.name
+                    (product) => product?.generic?.name === generic?.name
                   ).length;
 
                   return {
