@@ -132,7 +132,7 @@ const LandingHeader = () => {
             <div className="ml-2">
               <p className="text-lg font-medium">{product?.name}</p>
               <p>
-                Price: $
+                Price: {globalData?.results?.currency}
                 {product?.offerPrice
                   ? product?.offerPrice
                   : product?.sellingPrice}
