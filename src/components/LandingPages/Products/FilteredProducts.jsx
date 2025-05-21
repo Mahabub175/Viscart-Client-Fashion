@@ -40,17 +40,17 @@ const FilteredProducts = ({ data }) => {
                   {item?.name}
                 </h2>
                 <div className="flex items-center gap-4 justify-center">
-                  {item?.offerPrice ? (
-                    <p className="text-primary text-2xl font-bold">
-                      {globalData?.results?.currency + " " + item?.offerPrice}
-                    </p>
-                  ) : (
-                    <p className="text-primary text-2xl font-bold">
+                  {item?.offerPrice > 0 && (
+                    <p className="text-sm lg:text-base font-medium line-through text-red-500">
                       {globalData?.results?.currency + " " + item?.sellingPrice}
                     </p>
                   )}
-                  {item?.offerPrice && (
-                    <p className="text-base font-bold line-through text-red-500">
+                  {item?.offerPrice > 0 ? (
+                    <p className="text-primary text-sm lg:text-xl font-medium">
+                      {globalData?.results?.currency + " " + item?.offerPrice}
+                    </p>
+                  ) : (
+                    <p className="text-primary text-sm lg:text-xl font-medium">
                       {globalData?.results?.currency + " " + item?.sellingPrice}
                     </p>
                   )}

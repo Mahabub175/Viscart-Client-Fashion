@@ -40,12 +40,12 @@ const ProductCard = ({ item }) => {
             </h2>
           </Tooltip>
           <div className="flex items-center gap-4 justify-center lg:justify-start">
-            {item?.offerPrice && (
+            {item?.offerPrice > 0 && (
               <p className="text-sm lg:text-base font-bold line-through text-black/60">
                 {globalData?.results?.currency + " " + item?.sellingPrice}
               </p>
             )}
-            {item?.offerPrice ? (
+            {item?.offerPrice > 0 ? (
               <p className="text-black text-sm lg:text-xl font-bold">
                 {globalData?.results?.currency + " " + item?.offerPrice}
               </p>
