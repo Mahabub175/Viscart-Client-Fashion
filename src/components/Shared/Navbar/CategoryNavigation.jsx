@@ -1,11 +1,21 @@
 import { useGetAllCategoriesQuery } from "@/redux/services/category/categoryApi";
+import { setFilter } from "@/redux/services/device/deviceSlice";
 import { DownOutlined, RightOutlined } from "@ant-design/icons";
 import { Menu, Dropdown } from "antd";
 import Link from "next/link";
 import React from "react";
+import { useDispatch } from "react-redux";
 
 const CategoryNavigation = () => {
+  const dispatch = useDispatch();
+
   const { data: categories } = useGetAllCategoriesQuery();
+
+  const itemClickHandler = (item) => {
+    if (item?.name) {
+      dispatch(setFilter(item?.name));
+    }
+  };
 
   const renderSubcategories = (category) => {
     if (category?.subcategories && category?.subcategories.length > 0) {
@@ -13,12 +23,14 @@ const CategoryNavigation = () => {
         <Menu>
           {category.subcategories.map((subCategory) => (
             <Menu.Item key={subCategory?._id}>
-              <Link href={`/products?filter=${subCategory?.name}`}>
-                {subCategory?.name}
-                {subCategory?.subcategories &&
-                  subCategory?.subcategories.length > 0 && (
-                    <RightOutlined className="ml-2" />
-                  )}
+              <Link href={`/products`}>
+                <p onClick={() => itemClickHandler(subCategory)}>
+                  {subCategory?.name}
+                  {subCategory?.subcategories &&
+                    subCategory?.subcategories.length > 0 && (
+                      <RightOutlined className="ml-2" />
+                    )}
+                </p>
               </Link>
             </Menu.Item>
           ))}
@@ -35,11 +47,10 @@ const CategoryNavigation = () => {
           <Menu.SubMenu
             key={category?._id}
             title={
-              <Link
-                href={`/products?filter=${category?.name}`}
-                className="flex items-center"
-              >
-                {category?.name}
+              <Link href={`/products`} className="flex items-center">
+                <p onClick={() => itemClickHandler(category)}>
+                  {category?.name}
+                </p>
               </Link>
             }
           >
@@ -60,14 +71,16 @@ const CategoryNavigation = () => {
           trigger={["hover"]}
         >
           <Link
-            href={`/products?filter=${parentCategory?.name}`}
+            href={`/products`}
             className="flex items-center cursor-pointer lg:text-xs xl:text-base"
           >
-            <span>{parentCategory?.name}</span>
-            {parentCategory?.categories &&
-              parentCategory?.categories.length > 0 && (
-                <DownOutlined className="!text-sm mt-0.5 ml-1" />
-              )}
+            <p onClick={() => itemClickHandler(parentCategory)}>
+              <span>{parentCategory?.name}</span>
+              {parentCategory?.categories &&
+                parentCategory?.categories.length > 0 && (
+                  <DownOutlined className="!text-sm mt-0.5 ml-1" />
+                )}
+            </p>
           </Link>
         </Dropdown>
       ));

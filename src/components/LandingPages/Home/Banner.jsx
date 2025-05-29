@@ -10,8 +10,12 @@ import useGetURL from "@/utilities/hooks/useGetURL";
 import { useEffect } from "react";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { useAddServerTrackingMutation } from "@/redux/services/serverTracking/serverTrackingApi";
+import { useDispatch } from "react-redux";
+import { setFilter } from "@/redux/services/device/deviceSlice";
 
 const Banner = () => {
+  const dispatch = useDispatch();
+
   const { data: sliders } = useGetAllSlidersQuery();
 
   const url = useGetURL();
@@ -31,6 +35,12 @@ const Banner = () => {
   const activeSliders = sliders?.results?.filter(
     (item) => item.status === "Active" && !item?.bottomBanner
   );
+
+  const itemClickHandler = (item) => {
+    if (item?.category?.name) {
+      dispatch(setFilter(item?.category?.name));
+    }
+  };
 
   return (
     <section className="relative mb-10">
@@ -52,7 +62,7 @@ const Banner = () => {
                   item?.name
                     ? item.name
                     : item?.category?.name
-                    ? `/products?filter=${item.category.name}`
+                    ? `/products}`
                     : "/"
                 }
               >
@@ -64,7 +74,8 @@ const Banner = () => {
                   alt={item?.name ?? "banner"}
                   width={2500}
                   height={700}
-                  className="h-[200px] lg:h-fit w-full"
+                  className="h-fit w-full"
+                  onClick={() => itemClickHandler(item)}
                 />
               </Link>
             </SwiperSlide>

@@ -174,38 +174,40 @@ const LandingHeader = () => {
             className="cursor-pointer hover:text-primary duration-300"
             onClick={() => setIsSearchOpen(true)}
           />
-          {user?._id ? (
-            <>
-              {" "}
-              <div className="flex items-center gap-2">
-                <Popover
-                  placement="bottomRight"
-                  content={content}
-                  className="cursor-pointer flex items-center gap-1"
-                >
-                  {data?.profile_image ? (
-                    <Image
-                      src={data?.profile_image}
-                      alt="profile"
-                      height={40}
-                      width={40}
-                      className="rounded-full w-[40px] h-[40px] border-2 border-primary"
-                    />
-                  ) : (
-                    <Avatar className="" size={40} icon={<UserOutlined />} />
-                  )}
-                  <h2 className="font-semibold">{data?.name ?? "User"}</h2>
-                  <IoMdArrowDropdown />
-                </Popover>
-              </div>
-            </>
-          ) : (
-            <>
-              <Link href={"/sign-in"}>
-                <FaUser className="cursor-pointer hover:text-primary duration-300" />
-              </Link>
-            </>
-          )}
+          <div className="hidden lg:block">
+            {user?._id ? (
+              <>
+                {" "}
+                <div className="flex items-center gap-2">
+                  <Popover
+                    placement="bottomRight"
+                    content={content}
+                    className="cursor-pointer flex items-center gap-1"
+                  >
+                    {data?.profile_image ? (
+                      <Image
+                        src={data?.profile_image}
+                        alt="profile"
+                        height={40}
+                        width={40}
+                        className="rounded-full w-[40px] h-[40px] border-2 border-primary"
+                      />
+                    ) : (
+                      <Avatar className="" size={40} icon={<UserOutlined />} />
+                    )}
+                    <h2 className="font-semibold">{data?.name ?? "User"}</h2>
+                    <IoMdArrowDropdown />
+                  </Popover>
+                </div>
+              </>
+            ) : (
+              <>
+                <Link href={"/sign-in"}>
+                  <FaUser className="cursor-pointer hover:text-primary duration-300" />
+                </Link>
+              </>
+            )}
+          </div>
 
           <Link href={"/compare"} className="hidden lg:flex">
             {compareData?.[0]?.product?.length > 0 ? (

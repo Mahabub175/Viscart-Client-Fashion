@@ -2,11 +2,15 @@
 
 import LinkButton from "@/components/Shared/LinkButton";
 import { useGetAllCategoriesQuery } from "@/redux/services/category/categoryApi";
+import { setFilter } from "@/redux/services/device/deviceSlice";
 import { useGetAllProductsQuery } from "@/redux/services/product/productApi";
 import Image from "next/image";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 const Categories = () => {
+  const dispatch = useDispatch();
+
   const { data: categories } = useGetAllCategoriesQuery();
   const { data: products } = useGetAllProductsQuery();
 
@@ -36,6 +40,12 @@ const Categories = () => {
     ? sortedCategories
     : sortedCategories?.slice(0, 6);
 
+  const itemClickHandler = (item) => {
+    if (item?.name) {
+      dispatch(setFilter(item?.name));
+    }
+  };
+
   return (
     <section className="my-container p-5 -mt-5 lg:mt-10 relative">
       <h2 className="text-2xl lg:text-3xl font-medium text-center lg:text-start mb-5">
@@ -46,8 +56,9 @@ const Categories = () => {
           <div
             className="group relative w-[160px] h-[160px] mx-auto rounded-xl"
             key={item?._id}
+            onClick={() => itemClickHandler(item)}
           >
-            <LinkButton href={`/products?filter=${item?.name}`}>
+            <LinkButton href={`/products`}>
               <div className="overflow-hidden w-full h-full rounded-xl">
                 <Image
                   src={
