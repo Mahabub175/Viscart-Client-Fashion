@@ -313,7 +313,7 @@ const AllProducts = () => {
               <Checkbox.Group
                 options={activeCategories?.map((category) => {
                   const productCount = productData?.results?.filter(
-                    (product) => product.category.name === category.name
+                    (product) => product?.category?.name === category?.name
                   ).length;
 
                   return {
@@ -460,7 +460,7 @@ const AllProducts = () => {
             <Checkbox.Group
               options={activeCategories?.map((category) => {
                 const productCount = productData?.results?.filter(
-                  (product) => product.category.name === category.name
+                  (product) => product?.category?.name === category.name
                 ).length;
 
                 return {
